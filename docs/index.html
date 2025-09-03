@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stiffies — Nearby</title>
+  <meta name="theme-color" content="#111827">
+  <link rel="stylesheet" href="./assets/style.css">
+  <meta name="description" content="Stiffies — location-based hookup grid">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Stiffies</div>
+    <button id="refreshBtn" class="btn">Refresh location</button>
+  </header>
+
+  <main class="wrap">
+    <section class="status">
+      <div id="perm" class="chip">Checking location permission…</div>
+      <div id="you" class="you">—</div>
+    </section>
+
+    <section>
+      <h2 class="h2">Nearby</h2>
+      <div id="grid" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <small>Prototype. Location stays on your device. Mock profiles only.</small>
+  </footer>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
