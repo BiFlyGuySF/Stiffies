@@ -7,6 +7,10 @@
   const km = (m) => (m/1000).toFixed(m < 10000 ? 2 : 1);
   const toFixed = (n, d=5) => Number.parseFloat(n).toFixed(d);
 
+<<<<<<< HEAD
+=======
+  // Haversine distance (meters)
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
   function distanceMeters(a, b) {
     const R = 6371e3;
     const φ1 = a.lat * Math.PI/180, φ2 = b.lat * Math.PI/180;
@@ -22,7 +26,11 @@
     return `${A[Math.floor(Math.random()*A.length)]} • ${B[Math.floor(Math.random()*B.length)]}`;
   }
 
+<<<<<<< HEAD
   function seededRand(seed) {
+=======
+  function seededRand(seed) { // simple LCG
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
     let s = seed % 2147483647; if (s <= 0) s += 2147483646;
     return () => (s = s * 16807 % 2147483647) / 2147483647;
   }
@@ -30,17 +38,36 @@
   function genMockUsers(center, count=24) {
     const key = 'stiffies_mock_users_v1';
     const cached = localStorage.getItem(key);
+<<<<<<< HEAD
     if (cached) { try { const p = JSON.parse(cached); if (Array.isArray(p) && p.length) return p; } catch {}
     }
+=======
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (parsed && Array.isArray(parsed) && parsed.length) return parsed;
+      } catch {}
+    }
+
+    // Seed by rounded coords so list is stable around your area
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
     const seed = Math.round(center.lat*1000)*100000 + Math.round(center.lng*1000);
     const rnd = seededRand(seed);
     const out = [];
     for (let i=0; i<count; i++) {
+<<<<<<< HEAD
       const maxMeters = 5000;
       const r = Math.sqrt(rnd()) * maxMeters;
       const t = rnd()*Math.PI*2;
       const dy = (r * Math.cos(t)) / 111320;
       const dx = (r * Math.sin(t)) / (111320 * Math.cos(center.lat*Math.PI/180));
+=======
+      const maxMeters = 5000; // within ~5km
+      const r = Math.sqrt(rnd()) * maxMeters;
+      const t = rnd()*Math.PI*2;
+      const dy = (r * Math.cos(t)) / 111320;               // meters to degrees lat
+      const dx = (r * Math.sin(t)) / (111320 * Math.cos(center.lat*Math.PI/180)); // lon adjust
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
       const lat = center.lat + dy;
       const lng = center.lng + dx;
 
@@ -50,6 +77,10 @@
         age: 21 + Math.floor(rnd()*22),
         lat, lng,
         bio: ["Looking","Chat first","No drama","Gym later?","Pizza + movie","Night owl"][Math.floor(rnd()*6)],
+<<<<<<< HEAD
+=======
+        // use robohash so no external accounts; works anonymously
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
         img: `https://robohash.org/${seed}-${i}?set=set1&size=400x400`
       });
     }
@@ -61,6 +92,10 @@
     youEl.textContent = `You: ${toFixed(center.lat,5)}, ${toFixed(center.lng,5)}`;
     const enriched = users.map(u => ({...u, d: distanceMeters(center, {lat: u.lat, lng: u.lng})}))
                           .sort((a,b) => a.d - b.d);
+<<<<<<< HEAD
+=======
+
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
     gridEl.innerHTML = '';
     for (const u of enriched) {
       const card = document.createElement('article');
@@ -69,7 +104,13 @@
       const pfp = document.createElement('div');
       pfp.className = 'pfp';
       const img = document.createElement('img');
+<<<<<<< HEAD
       img.loading = 'lazy'; img.alt = `${u.name}`; img.src = u.img;
+=======
+      img.loading = 'lazy';
+      img.alt = `${u.name}`;
+      img.src = u.img;
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
       pfp.appendChild(img);
 
       const badge = document.createElement('div');
@@ -92,9 +133,17 @@
     }
   }
 
+<<<<<<< HEAD
   function getLocationOnce() {
     return new Promise((resolve, reject) => {
       if (!('geolocation' in navigator)) return reject(new Error('Geolocation not supported'));
+=======
+  async function getLocationOnce() {
+    return new Promise((resolve, reject) => {
+      if (!('geolocation' in navigator)) {
+        return reject(new Error('Geolocation not supported'));
+      }
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
       navigator.geolocation.getCurrentPosition(
         pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
         err => reject(err),
@@ -114,10 +163,18 @@
       setPerm('Requesting location…');
       const center = await getLocationOnce();
       setPerm('Location active', true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
       localStorage.setItem('stiffies_me', JSON.stringify(center));
       const users = genMockUsers(center, 24);
       render(center, users);
     } catch (e) {
+<<<<<<< HEAD
+=======
+      console.warn(e);
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
       if (e.code === 1) setPerm('Permission denied. Enable location for this site.');
       else if (e.code === 2) setPerm('Position unavailable. Try again.');
       else if (e.code === 3) setPerm('Timed out. Tap refresh.');
@@ -127,6 +184,14 @@
   }
 
   refreshBtn.addEventListener('click', boot);
+<<<<<<< HEAD
   document.addEventListener('visibilitychange', () => { if (!document.hidden) boot(); });
+=======
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) boot();
+  });
+
+  // first load
+>>>>>>> b554cb0 (Initial commit: Vite site for GitHub Pages)
   boot();
 })();
